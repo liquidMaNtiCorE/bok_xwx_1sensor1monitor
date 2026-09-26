@@ -32,3 +32,24 @@ install(TARGETS
 DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
+
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+
+add_executable(temp_sensor_node src/temp_sensor_node.cpp)
+ament_target_dependencies(temp_sensor_node rclcpp sensor_msgs)
+
+add_executable(temp_monitor_node src/temp_monitor_node.cpp)
+ament_target_dependencies(temp_monitor_node rclcpp sensor_msgs std_msgs)
+
+install(TARGETS
+  temp_sensor_node
+  temp_monitor_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
