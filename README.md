@@ -1,56 +1,31 @@
-# `ros2_cpp_template` package
-ROS 2 C++ package.  [![Static Badge](https://img.shields.io/badge/ROS_2-Humble-34aec5)](https://docs.ros.org/en/humble/)
-## Packages and build
+# Sensor Monitor Package
 
-It is assumed that the workspace is `~/ros2_ws/`.
 
-### Clone the packages
-``` r
-cd ~/ros2_ws/src
+
+## Structure
+The package consists of two nodes:
+- `/sensor_node` (`sensor_node.cpp`): Publishes simulated temperature data between `18.0` and `35.0` °C on the `/temperature` topic.
+- `/monitor_node` (`monitor_node.cpp`): Monitors the temperature, and if it exceeds 31 °C, it sends an alert on the `/warning` topic.
+
+## Node and Topic Connections
+```mermaid
+graph LR
+    sensor_node["/sensor_node"]
+    monitor_node["/monitor_node"]
+    sensor_node -- "sensor_msgs/msg/Temperature<br>[/temperature]" --> monitor_node
+    monitor_node -- "std_msgs/msg/String<br>[/warning]" --> user((Client / Terminal))
 ```
-``` r
-git clone https://github.com/sze-info/ros2_cpp_template
-```
 
-### Build ROS 2 packages
-``` r
+## Build and Run
+
+
+```bash
 cd ~/ros2_ws
-```
-``` r
-colcon build --packages-select ros2_cpp_template --symlink-install
-```
-
-<details>
-<summary> Don't forget to source before ROS commands.</summary>
-
-``` bash
-source ~/ros2_ws/install/setup.bash
-```
-</details>
-
-``` r
-ros2 launch ros2_cpp_template launch_example1.launch.py
+source /opt/ros/jazzy/setup.bash
+colcon build --packages-select bok_xwx_1sensor1monitor
 ```
 
-# Delete this part if you are using it as a template
-
-ROS 2 pacage template, to get started, use template by clicking on the Green button labeled [`Use this template`](https://github.com/sze-info/ros2_cpp_template/generate) / [`Create new repository`](https://github.com/sze-info/ros2_cpp_template/generate). 
-
-<p align="center"><img src="img/use_this_template01.png" width="60%" /></p>
-
-
-Let's assume 
-- your Github username is `mycoolusername`
-- your ROS 2 repo shold be `cool_ros2_package`
-
-Replace everything in the cloned repo:
-
-- `ros2_cpp_template` >> `cool_ros2_package` (the folder was already renamed after `Use this template`)
-- `sze-info` >> `mycoolusername`
-- find all `todo` strings and fill the blanks
-
-The easiest way is VS code:
-
-<p align="center"><img src="img/replace01.png" width="60%" /></p>
-
-Now `colcon build` your ROS 2 package and you can start wokring.
+```bash
+source install/setup.bash
+ros2 launch bok_xwx_1sensor1monitor run_system.launch.py
+```

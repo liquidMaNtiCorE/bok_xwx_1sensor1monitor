@@ -17,7 +17,7 @@ private:
     void temp_callback(const sensor_msgs::msg::Temperature::SharedPtr msg) {
         if (msg->temperature > 31.2) {
             auto alert = std_msgs::msg::String();
-            alert.data = "Magas Homerseklet " + std::to_string(msg->temperature) + " °C!";
+            alert.data = "High Temperature " + std::to_string(msg->temperature) + " °C!";
             RCLCPP_WARN(this->get_logger(), "%s", alert.data.c_str());
             alert_pub_->publish(alert);
         }

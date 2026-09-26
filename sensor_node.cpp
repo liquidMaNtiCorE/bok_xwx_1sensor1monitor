@@ -23,7 +23,7 @@ private:
         msg.temperature = dist_(gen_);
         msg.variance = 0.1;
 
-        RCLCPP_INFO(this->get_logger(), "Mért hõmérséklet: %.2f  °C", msg.temperature);
+        RCLCPP_INFO(this->get_logger(), "The temperature: %.2f  °C", msg.temperature);
         publisher_->publish(msg);
     }
 
